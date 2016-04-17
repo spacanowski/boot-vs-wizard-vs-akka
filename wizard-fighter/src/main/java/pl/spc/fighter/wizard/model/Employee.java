@@ -1,10 +1,25 @@
 package pl.spc.fighter.wizard.model;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Employee {
+    @Null
     private String id;
+    @NotEmpty
     private String name;
+    @NotEmpty
     private String surname;
+    @Email
+    @NotEmpty
     private String email;
+    @NotNull
+    @Valid
     private Salary salary;
 
     public String getId() {
@@ -48,7 +63,10 @@ public class Employee {
     }
 
     public static class Salary {
+        @Null
         private String id;
+        @NotNull
+        @Min(0)
         private long amount;
 
         public String getId() {
