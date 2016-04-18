@@ -11,6 +11,10 @@ import pl.spc.fighter.wizard.dao.EmployeeDao;
 import pl.spc.fighter.wizard.service.EmployeeService;
 
 public class WizardFighter extends Application<WizardConfiguration> {
+    public static void main(String[] args) throws Exception {
+        new WizardFighter().run(args);
+    }
+
     @Override
     public void run(WizardConfiguration configuration, Environment environment) throws Exception {
         environment.jersey().packages("pl.spc");

@@ -1,0 +1,6 @@
+database:
+  driverClass: org.postgresql.Driver
+  user: test
+  password: test
+  url: jdbc:postgresql://localhost:5432/test
+  maxWaitForConnection: 1s
