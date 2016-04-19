@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import pl.spc.fighter.boot.dao.EmployeeDao;
 import pl.spc.fighter.boot.model.Employee;
@@ -15,6 +16,7 @@ public class EmployeeService {
     @Autowired
     private EmployeeDao dao;
 
+    @Transactional
     public Employee addEmployee(Employee employee) {
         String id = UUID.randomUUID().toString();
         employee.setId(id);
