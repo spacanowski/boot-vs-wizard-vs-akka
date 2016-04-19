@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import org.skife.jdbi.v2.sqlobject.Transaction;
+
 import pl.spc.fighter.wizard.dao.EmployeeDao;
 import pl.spc.fighter.wizard.model.Employee;
 import pl.spc.fighter.wizard.model.Employee.Salary;
@@ -13,6 +15,7 @@ public class EmployeeService {
     @Inject
     private EmployeeDao dao;
 
+    @Transaction
     public Employee addEmployee(Employee employee) {
         String id = UUID.randomUUID().toString();
         employee.setId(id);
