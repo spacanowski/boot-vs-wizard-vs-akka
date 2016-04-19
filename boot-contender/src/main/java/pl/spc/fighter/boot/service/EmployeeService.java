@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import pl.spc.fighter.boot.dao.EmployeeDao;
 import pl.spc.fighter.boot.model.Employee;
 import pl.spc.fighter.boot.model.Employee.Salary;
+import pl.spc.fighter.boot.repository.EmployeeRepository;
 
 @Service
 public class EmployeeService {
     @Autowired
-    private EmployeeDao dao;
+    private EmployeeRepository dao;
 
     @Transactional
     public Employee addEmployee(Employee employee) {

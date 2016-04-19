@@ -1,4 +1,4 @@
-package pl.spc.fighter.boot.dao;
+package pl.spc.fighter.boot.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +12,7 @@ import pl.spc.fighter.boot.model.Employee;
 import pl.spc.fighter.boot.model.Employee.Salary;
 
 @Repository
-public class EmployeeDao {
+public class EmployeeRepository {
     private static final String AMOUNT_COLUMN_NAME = "amount";
     private static final String SURNAME_COLUMN_NAME = "surname";
     private static final String NAME_COLUMN_NAME = "name";
@@ -22,7 +22,7 @@ public class EmployeeDao {
     private static final String ADD_EMPLOYEE = "insert into employees values (?,?,?,?)";
     private static final String ADD_SALARY = "insert into employees values (?,?)";
     private static final String GET_EMPOYEE_BY_ID = "select e.id, e.name, e.surname, e.email, s.amount from employees e join salary s on e.id = s.id where e.id = ?";
-    private static final String GET_EMPOYEES = "select e.id, e.name, e.surname, e.email, s.amount from employees e join salary s on e.id = ?";
+    private static final String GET_EMPOYEES = "select e.id, e.name, e.surname, e.email, s.amount from employees e join salary s on e.id = s.id";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
