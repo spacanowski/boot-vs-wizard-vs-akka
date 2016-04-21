@@ -20,7 +20,7 @@ public class EmployeeRepository {
     private static final String ID_COLUMN_NAME = "id";
 
     private static final String ADD_EMPLOYEE = "insert into employees values (?,?,?,?)";
-    private static final String ADD_SALARY = "insert into employees values (?,?)";
+    private static final String ADD_SALARY = "insert into salary values (?,?)";
     private static final String GET_EMPOYEE_BY_ID = "select e.id, e.name, e.surname, e.email, s.amount from employees e join salary s on e.id = s.id where e.id = ?";
     private static final String GET_EMPOYEES = "select e.id, e.name, e.surname, e.email, s.amount from employees e join salary s on e.id = s.id";
 
