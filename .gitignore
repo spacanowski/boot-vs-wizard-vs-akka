@@ -5,4 +5,6 @@
 bin/
 build/
 logs/
-
+gatling-invader/target/
+gatling-invader/project/target/
+gatling-invader/project/project/target/
