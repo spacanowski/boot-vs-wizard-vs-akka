@@ -8,3 +8,4 @@ logs/
 gatling-invader/target/
 gatling-invader/project/target/
 gatling-invader/project/project/target/
+akka-assailant/gradle/
