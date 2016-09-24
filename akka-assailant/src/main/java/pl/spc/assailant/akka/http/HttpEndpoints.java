@@ -5,6 +5,7 @@ import static akka.http.javadsl.marshallers.jackson.Jackson.unmarshaller;
 
 import java.sql.SQLException;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import javax.inject.Inject;
 import javax.validation.Validation;
@@ -26,16 +27,10 @@ public class HttpEndpoints extends AllDirectives {
     @Inject
     private EmployeeService service;
 
+    private Function<Employee, Route> validateAndCreateEmployeeRoute = (employee) -> validate(employee, addEmployee(employee));
+
     public Route createRoute() {
-        return handleExceptions(exceptionHandler(), () ->
-            route(
-                pathPrefix(EMPLOYEES, () ->
-                    route(
-                        get(() ->
-                            path(this::getEmployee)),
-                        get(this::getEmployees),
-                        post(() ->
-                            entity(unmarshaller(Employee.class), (employee) -> validate(employee, addEmployee(employee))))))));
+        return handleExceptions(exceptionHandler(), this::routes);
     }
 
     private ExceptionHandler exceptionHandler() {
@@ -47,6 +42,26 @@ public class HttpEndpoints extends AllDirectives {
             .match(SQLException.class, ex -> mapper.apply(StatusCodes.UNPROCESSABLE_ENTITY, ex.getMessage()))
             .match(ValidationException.class, ex -> mapper.apply(StatusCodes.UNPROCESSABLE_ENTITY, ex.getMessage()))
             .build();
+    }
+
+    private Route routes() {
+        return route(
+            pathPrefix(EMPLOYEES, this::employeesRoutes));
+    }
+
+    private Route employeesRoutes() {
+        return route(
+            get(this::singleEmployeeRoute),
+            get(this::getEmployees),
+            post(this::createEmployeeRoute));
+    }
+
+    private Route singleEmployeeRoute() {
+        return path(this::getEmployee);
+    }
+
+    private Route createEmployeeRoute() {
+        return entity(unmarshaller(Employee.class), validateAndCreateEmployeeRoute);
     }
 
     private Route validate(Employee employee, Route route) {
