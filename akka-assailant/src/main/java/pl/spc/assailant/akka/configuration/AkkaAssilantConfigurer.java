@@ -8,6 +8,8 @@ import org.skife.jdbi.v2.DBI;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.inject.AbstractModule;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import pl.spc.assailant.akka.configuration.AkkaAssilantConfiguration.DataSourceConfiguration;
 import pl.spc.assailant.akka.dao.EmployeeDao;
@@ -28,12 +30,10 @@ public class AkkaAssilantConfigurer extends AbstractModule {
         bind(HttpEndpoints.class);
         bind(EmployeeService.class);
         bind(AkkaAssilantConfiguration.class).toInstance(configuration);
-        bind(EmployeeDao.class).toInstance(dbi(configuration).onDemand(EmployeeDao.class));
-    }
 
-    private DBI dbi(AkkaAssilantConfiguration configuration) {
-        DataSourceConfiguration dbConfiguration = configuration.getDbConfiguration();
-        return new DBI(dbConfiguration.getUrl(), dbConfiguration.getUser(), dbConfiguration.getPassword());
+        DBI dbi = dbi(dataSource(createHikariConfig(configuration.getDbConfiguration(), "AuditPool")));
+
+        bind(EmployeeDao.class).toInstance(dbi.onDemand(EmployeeDao.class));
     }
 
     private AkkaAssilantConfiguration loadConfiguration() {
@@ -42,5 +42,24 @@ public class AkkaAssilantConfigurer extends AbstractModule {
         } catch (IOException e) {
             throw new IllegalStateException("No configuration found");
         }
+    }
+
+    private HikariDataSource dataSource(HikariConfig config) {
+        return new HikariDataSource(config);
+    }
+
+    private DBI dbi(HikariDataSource dataSource) {
+        return new DBI(dataSource);
+    }
+
+    private HikariConfig createHikariConfig(DataSourceConfiguration dbConfiguation, String poolName) {
+        HikariConfig config = new HikariConfig("/hikari.properties");
+
+        config.setJdbcUrl(dbConfiguation.getUrl());
+        config.setUsername(dbConfiguation.getUser());
+        config.setPassword(dbConfiguation.getPassword());
+        config.setPoolName(poolName);
+
+        return config;
     }
 }
