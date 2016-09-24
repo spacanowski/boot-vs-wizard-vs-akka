@@ -54,6 +54,6 @@ class InvaderSimulator extends Simulation {
         .exec(Get.employees)
 
     setUp(
-        scn.inject(rampUsersPerSec(1).to(5).during(15 seconds))
+        scn.inject(rampUsersPerSec(1).to(15).during(20 seconds))
     ).protocols(httpConf)
 }
