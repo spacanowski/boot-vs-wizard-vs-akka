@@ -22,8 +22,8 @@ import pl.spc.assailant.akka.model.Employee;
 import pl.spc.assailant.akka.service.EmployeeService;
 
 public class HttpEndpoints extends AllDirectives {
-    private static final String EMPLOYEES = "employees";
-    private static final Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
+    private String EMPLOYEES = "employees";
+    private Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
     @Inject
     private EmployeeService service;
 
