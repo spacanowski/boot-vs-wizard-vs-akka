@@ -32,3 +32,7 @@ dependencies {
     testCompile group: 'org.scalactic',                 name: 'scalactic_2.12',                                 version: '3.0.3'
     testCompile group: 'org.scalatest',                 name: 'scalatest_2.12',                                 version: '3.0.3'
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.4'
+}
